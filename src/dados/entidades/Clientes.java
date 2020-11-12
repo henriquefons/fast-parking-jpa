@@ -5,10 +5,88 @@
  */
 package dados.entidades;
 
+import java.math.BigDecimal;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  *
  * @author Henrique
  */
+@Entity
 public class Clientes {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    
+    private String nome;
+    private String placa;
+    private String cpf;
+    private String tipo_veiculo;
+    private boolean ocupacao;
+    
+    public Clientes(){}
+
+    public Clientes(Integer id, String nome, String placa, String cpf, String tipo_veiculo, boolean ocupacao) {
+        this.setId(id);
+        this.setNome(nome);
+        this.setPlaca(placa);
+        this.setCpf(cpf);
+        this.setTipo_veiculo(tipo_veiculo);
+        this.setOcupacao(ocupacao);
+    }
+    
+    
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getTipo_veiculo() {
+        return tipo_veiculo;
+    }
+
+    public void setTipo_veiculo(String tipo_veiculo) {
+        this.tipo_veiculo = tipo_veiculo;
+    }
+
+    public boolean isOcupacao() {
+        return ocupacao;
+    }
+
+    public void setOcupacao(boolean ocupacao) {
+        this.ocupacao = ocupacao;
+    }
     
 }
