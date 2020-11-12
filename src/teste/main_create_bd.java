@@ -5,6 +5,8 @@
  */
 package teste;
 
+import javax.persistence.EntityManager;
+import util.JPAUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -15,12 +17,9 @@ import org.hibernate.SessionFactory;
 public class main_create_bd {
     
     public static void main(String[] args) {
-        SessionFactory sf = HibernateUtil.getSessionFactory();
-        Session session = sf.openSession();
         
+        EntityManager gerenciador = JPAUtil.getGerenciador();
         
-        session.close();
-        sf.close();
     }
     
 }
