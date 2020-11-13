@@ -7,8 +7,6 @@ package teste;
 
 import javax.persistence.EntityManager;
 import util.JPAUtil;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 /**
  *
