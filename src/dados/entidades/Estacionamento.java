@@ -6,6 +6,7 @@
 package dados.entidades;
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,9 @@ public class Estacionamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
+    @Column(nullable = false)
     private String nome;
+    @Column(nullable = false)
     private BigDecimal price_hours;
     
     //Construtor vazio da JPA (OBRIGATÓRIO)
