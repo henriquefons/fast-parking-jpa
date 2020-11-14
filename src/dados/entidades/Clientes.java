@@ -5,7 +5,9 @@
  */
 package dados.entidades;
 
+import com.sun.istack.NotNull;
 import java.math.BigDecimal;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +24,9 @@ public class Clientes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
+    @Column(nullable = false)
     private String nome;
+    @Column(nullable = false)
     private String placa;
     private String cpf;
     private String tipo_veiculo;
