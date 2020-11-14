@@ -31,8 +31,7 @@ public class Estacionamento {
     //Construtor vazio da JPA (OBRIGATÓRIO)
     public Estacionamento(){}
     
-    public Estacionamento(Integer id, String nome, BigDecimal price_hours) {
-        this.setId(id);
+    public Estacionamento(String nome, BigDecimal price_hours) {
         this.setNome(nome);
         this.setPrice_hours(price_hours);
     }

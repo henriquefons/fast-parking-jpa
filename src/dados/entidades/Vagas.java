@@ -44,8 +44,7 @@ public class Vagas {
     
     public Vagas(){}
 
-    public Vagas(Integer id, Date entrada, Date saida, BigDecimal valor_final, Estacionamento estacionamento, Clientes clientes) {
-        this.setId(id);
+    public Vagas(Date entrada, Date saida, BigDecimal valor_final, Estacionamento estacionamento, Clientes clientes) {
         this.setEntrada(entrada);
         this.setSaida(saida);
         this.setValor_final(valor_final);

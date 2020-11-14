@@ -34,8 +34,7 @@ public class Clientes {
     
     public Clientes(){}
 
-    public Clientes(Integer id, String nome, String placa, String cpf, String tipo_veiculo, boolean ocupacao) {
-        this.setId(id);
+    public Clientes(String nome, String placa, String cpf, String tipo_veiculo, boolean ocupacao) {
         this.setNome(nome);
         this.setPlaca(placa);
         this.setCpf(cpf);
