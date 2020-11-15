@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +28,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import servicos.ClientesServico;
 import ui.cliente.cadastro.CadastroController;
 import util.AlertaUtil;
@@ -104,13 +106,20 @@ public class ListarController implements Initializable {
            stage.setScene(new Scene(root));
            stage.setTitle("Editar Cliente");
            
+           //Evento para atualizar a tabela quando sair do edit // identifica quando a janela "filho" for fechada
+           stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
+               public void handle(WindowEvent we){
+                   listarClientesTabela();
+               }
+            });
+           
            stage.show();
            
-           listarClientesTabela();
-            
         }else{ 
             AlertaUtil.mensagemErro("Selecione um cliente");
         }
+        
+        listarClientesTabela();
                
     }
 
@@ -120,7 +129,7 @@ public class ListarController implements Initializable {
         cliente_selecionado = tbl_clientes.getSelectionModel().getSelectedItem();
 
         if (cliente_selecionado != null) {
-
+            
             Optional<ButtonType> btn
                     = AlertaUtil.mensagemDeConfirmacao("Deseja mesmo excluir?","EXCLUIR");
 
@@ -133,7 +142,7 @@ public class ListarController implements Initializable {
                 //Atualizar a tabela
                 listarClientesTabela();
             }
-
+            
         } else {
             AlertaUtil.mensagemErro("Selecione um Cliente");
         }

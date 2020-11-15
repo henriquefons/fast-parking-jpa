@@ -15,7 +15,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import servicos.ClientesServico;
 import util.AlertaUtil;
 
@@ -43,6 +45,8 @@ public class CadastroController implements Initializable {
     private Button btn_sair_id;
     @FXML
     private Button btn_salvar_id;
+    @FXML
+    private Text txt_titulo;
 
     /**
      * Initializes the controller class.
@@ -74,7 +78,10 @@ public class CadastroController implements Initializable {
             
             AlertaUtil.mensagemSucesso("Cliente atualizado com sucesso!"); 
             
-            fecharJanela(btn_salvar_id);
+            Stage stage = (Stage) btn_salvar_id.getScene().getWindow();
+            //Quando fechado, atualizada a tabela na tea "pai"
+            stage.getOnCloseRequest().handle(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+            stage.close();
             
         }else{ //Adicionar
             Clientes c = new Clientes(txf_nome.getText(), txf_placa.getText(), txf_cpf.getText(), 
@@ -99,6 +106,7 @@ public class CadastroController implements Initializable {
     
     public void receberCliente(Clientes cliente_editar) {
         this.cliente_editar = cliente_editar;
+        txt_titulo.setText("Alteração de cliente");
         txf_nome.setText(String.valueOf(cliente_editar.getNome()));
         txf_cpf.setText(String.valueOf(cliente_editar.getCpf()));
         txf_placa.setText(String.valueOf(cliente_editar.getPlaca()));
