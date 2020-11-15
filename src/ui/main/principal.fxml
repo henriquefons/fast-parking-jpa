@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -41,39 +41,42 @@
          <children>
             <VBox prefWidth="295.0">
                <children>
-                  <HBox alignment="CENTER" fillHeight="false" prefHeight="40.0" prefWidth="295.0" spacing="20.0">
+                  <HBox alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="43.0" prefWidth="295.0" spacing="20.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Entrada Cliente" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" fillHeight="false" prefHeight="40.0" prefWidth="295.0" spacing="20.0">
+                  <HBox alignment="CENTER" fillHeight="false" prefHeight="60.0" prefWidth="295.0" spacing="20.0">
                      <children>
-                        <TextField fx:id="txf_placaSaida" prefHeight="25.0" prefWidth="144.0" promptText="Digite a placa" />
+                        <ComboBox fx:id="cb_placaDigitada" editable="true" prefWidth="150.0" promptText="Digite a placa" />
                         <Button mnemonicParsing="false" onAction="#prucurarPlaca" text="Procurar" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="43.0" prefWidth="295.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nome: Tal" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nome: " />
+                        <Text fx:id="txt_nome" strokeType="OUTSIDE" strokeWidth="0.0" text="{{nome}}" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="43.0" prefWidth="295.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CPF: Tal" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CPF: " />
+                        <Text fx:id="txt_cpf" strokeType="OUTSIDE" strokeWidth="0.0" text="{{nome}}" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="32.0" prefWidth="295.0">
+                  <HBox alignment="CENTER" prefHeight="43.0" prefWidth="295.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Placa: tal" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Placa: " />
+                        <Text fx:id="txt_placa" strokeType="OUTSIDE" strokeWidth="0.0" text="{{nome}}" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="35.0" prefWidth="295.0">
+                  <HBox alignment="CENTER" prefHeight="43.0" prefWidth="295.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Horario de entrada: tal" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Horario de entrada: " />
                      </children>
                   </HBox>
                   <Separator prefWidth="80.0" />
-                  <HBox alignment="CENTER" prefHeight="35.0" prefWidth="295.0" spacing="20.0">
+                  <HBox alignment="CENTER" prefHeight="66.0" prefWidth="295.0" spacing="20.0">
                      <children>
                         <Button mnemonicParsing="false" style="-fx-background-color: yellow;" text="Cancelar" />
                         <Button mnemonicParsing="false" style="-fx-background-color: green;" text="Confirmar" textFill="WHITE" />

@@ -92,4 +92,9 @@ public class Clientes {
         this.ocupacao = ocupacao;
     }
     
+    @Override
+    public String toString(){
+        return this.getPlaca();
+    }
+    
 }

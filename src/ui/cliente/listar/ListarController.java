@@ -89,38 +89,38 @@ public class ListarController implements Initializable {
     }
 
     @FXML
-    private void btn_editar(ActionEvent event) throws IOException{
-        
+    private void btn_editar(ActionEvent event) throws IOException {
+
         cliente_selecionado = tbl_clientes.getSelectionModel().getSelectedItem();
-        
+
         if (cliente_selecionado != null) {
-            
+
             FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/ui/cliente/cadastro/cadastro.fxml"));
             Parent root = fxmlloader.load();
-            
+
             CadastroController cadastroController = fxmlloader.getController();
-            
+
             cadastroController.receberCliente(cliente_selecionado);
-            
-           Stage stage = new Stage();
-           stage.setScene(new Scene(root));
-           stage.setTitle("Editar Cliente");
-           
-           //Evento para atualizar a tabela quando sair do edit // identifica quando a janela "filho" for fechada
-           stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
-               public void handle(WindowEvent we){
-                   listarClientesTabela();
-               }
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Editar Cliente");
+
+            //Evento para atualizar a tabela quando sair do edit // identifica quando a janela "filho" for fechada
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    listarClientesTabela();
+                }
             });
-           
-           stage.show();
-           
-        }else{ 
+
+            stage.show();
+
+        } else {
             AlertaUtil.mensagemErro("Selecione um cliente");
         }
-        
+
         listarClientesTabela();
-               
+
     }
 
     @FXML
@@ -129,20 +129,20 @@ public class ListarController implements Initializable {
         cliente_selecionado = tbl_clientes.getSelectionModel().getSelectedItem();
 
         if (cliente_selecionado != null) {
-            
+
             Optional<ButtonType> btn
-                    = AlertaUtil.mensagemDeConfirmacao("Deseja mesmo excluir?","EXCLUIR");
+                    = AlertaUtil.mensagemDeConfirmacao("Deseja mesmo excluir?", "EXCLUIR");
 
             //Verificando se apertou o OK
             if (btn.get() == ButtonType.OK) {
                 cliente_servico.excluir(cliente_selecionado);
                 //mostrar mensagem de sucesso
                 AlertaUtil.mensagemSucesso("Ator excluído com sucesso");
-                
+
                 //Atualizar a tabela
                 listarClientesTabela();
             }
-            
+
         } else {
             AlertaUtil.mensagemErro("Selecione um Cliente");
         }
@@ -152,8 +152,8 @@ public class ListarController implements Initializable {
     private void btn_sair(ActionEvent event) {
         fecharJanela(btn_sair_id);
     }
-    
-    private void fecharJanela(Button button){
+
+    private void fecharJanela(Button button) {
         Stage stage = (Stage) button.getScene().getWindow();
         stage.close();
     }
