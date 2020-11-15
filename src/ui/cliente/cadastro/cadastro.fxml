@@ -51,7 +51,7 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                      <children>
-                        <Button fx:id="btn_sair_id" mnemonicParsing="false" onAction="#btn_cancelar" prefHeight="37.0" prefWidth="80.0" text="Cancelar" />
+                        <Button fx:id="btn_sair_id" mnemonicParsing="false" onAction="#btn_cancelar" prefHeight="37.0" prefWidth="80.0" text="Sair" />
                         <Button fx:id="btn_salvar_id" mnemonicParsing="false" onAction="#btn_salvar" prefHeight="37.0" prefWidth="80.0" text="Salvar" />
                      </children>
                   </HBox>

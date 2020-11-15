@@ -13,17 +13,22 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import servicos.ClientesServico;
+import ui.cliente.cadastro.CadastroController;
 import util.AlertaUtil;
 
 /**
@@ -44,6 +49,12 @@ public class PrincipalController implements Initializable {
 
     // Variaveis criadas
     private ClientesServico cliente_servico = new ClientesServico();
+    @FXML
+    private TextField txf_hora_saida;
+    @FXML
+    private Button btn_cancelar_id;
+    @FXML
+    private Button btn_salvar_id;
 
     /**
      * Initializes the controller class.
@@ -84,6 +95,13 @@ public class PrincipalController implements Initializable {
         //Para bloquear interação com as janelas anteriores
         stage.initModality(Modality.APPLICATION_MODAL);
 
+        //Evento para atualizar a tabela quando sair do edit // identifica quando a janela "filho" for fechada
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                listarPlacas();
+            }
+        });
+
         //Mostrando a nova janela
         stage.show();
     }
@@ -101,16 +119,62 @@ public class PrincipalController implements Initializable {
             }
         }
         //Puxar os dados
-        if(cont > 0){
+        if (cont > 0) {
             Optional<ButtonType> btn
                     = AlertaUtil.mensagemDeConfirmacao("Cliente cadastrado", "MENSAGEM");
+            mostrarCampos();
             txt_nome.setText(c.getNome());
             txt_cpf.setText(c.getCpf());
             txt_placa.setText(c.getPlaca());
-        }else{
-            System.out.println("Cadastrar placa");
+        } else {
+            Optional<ButtonType> btn
+                    = AlertaUtil.mensagemDeConfirmacao("Cliente não cadastrado, deseja cadastrar?", "MENSAGEM");
+
+            if (btn.get() == ButtonType.OK) {
+
+                esconderCampos();
+
+                FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/ui/cliente/cadastro/cadastro.fxml"));
+                Parent root = fxmlloader.load();
+
+                CadastroController cadastroController = fxmlloader.getController();
+
+                cadastroController.recebePlaca(cb_placaDigitada.getEditor().textProperty().getValue());
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Cadastrar Cliente");
+
+                //Evento para atualizar a tabela quando sair do cadastro e atualizar a lista do combobox
+                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    public void handle(WindowEvent we) {
+                        listarPlacas();
+                    }
+                });
+
+                //Mostrando a nova janela
+                stage.show();
+
+            } else {
+                esconderCampos();
+            }
         }
-        
+    }
+
+    private void mostrarCampos() {
+        txt_nome.setVisible(true);
+        txt_cpf.setVisible(true);
+        txt_placa.setVisible(true);
+        btn_cancelar_id.setDisable(false);
+        btn_salvar_id.setDisable(false);
+    }
+
+    private void esconderCampos() {
+        txt_nome.setVisible(false);
+        txt_cpf.setVisible(false);
+        txt_placa.setVisible(false);
+        btn_cancelar_id.setDisable(true);
+        btn_salvar_id.setDisable(true);
     }
 
     @FXML
@@ -139,6 +203,14 @@ public class PrincipalController implements Initializable {
 
         //Mostrando a nova janela
         stage.show();
+    }
+
+    @FXML
+    private void cancelarEntrada(ActionEvent event) {
+    }
+
+    @FXML
+    private void salvarEntrada(ActionEvent event) {
     }
 
 }

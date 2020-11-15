@@ -112,9 +112,9 @@ public class ListarController implements Initializable {
                     listarClientesTabela();
                 }
             });
-
+            
             stage.show();
-
+            
         } else {
             AlertaUtil.mensagemErro("Selecione um cliente");
         }

@@ -36,17 +36,17 @@ public class CadastroController implements Initializable {
     private TextField txf_placa;
     @FXML
     private ComboBox<String> cb_tipoVeiculo;
-
-    // Variaveis criadas
-    private ClientesServico cliente_servico = new ClientesServico();
-
-    private Clientes cliente_editar;
     @FXML
     private Button btn_sair_id;
     @FXML
     private Button btn_salvar_id;
     @FXML
     private Text txt_titulo;
+
+    // Variaveis criadas
+    private ClientesServico cliente_servico = new ClientesServico();
+
+    private Clientes cliente_editar;
 
     /**
      * Initializes the controller class.
@@ -61,7 +61,10 @@ public class CadastroController implements Initializable {
 
     @FXML
     private void btn_cancelar(ActionEvent event) {
-        fecharJanela(btn_sair_id);
+        Stage stage = (Stage) btn_sair_id.getScene().getWindow();
+            //Quando fechado, atualizada o combobox na tela "pai"
+        stage.getOnCloseRequest().handle(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+        stage.close();
     }
 
     @FXML
@@ -90,7 +93,7 @@ public class CadastroController implements Initializable {
             cliente_servico.salvar(c);
 
             AlertaUtil.mensagemSucesso("Cliente salvo com sucesso!");
-
+            
             limpar_campos();
         }
 
@@ -113,10 +116,9 @@ public class CadastroController implements Initializable {
         txf_placa.setText(String.valueOf(cliente_editar.getPlaca()));
         cb_tipoVeiculo.getSelectionModel().select(cliente_editar.getTipo_veiculo());
     }
-
-    private void fecharJanela(Button button) {
-        Stage stage = (Stage) button.getScene().getWindow();
-        stage.close();
+    
+    public void recebePlaca(String c){
+        this.txf_placa.setText(String.valueOf(c));
     }
 
 }
