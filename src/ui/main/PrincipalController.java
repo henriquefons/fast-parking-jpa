@@ -45,7 +45,7 @@ public class PrincipalController implements Initializable {
         //Criando a cena
         Scene scene = new Scene(root);
         //Criando a janela (STAGE) 
-        Stage stage = new Stage(StageStyle.UTILITY);
+        Stage stage = new Stage();
         //Titulo na janela
         stage.setTitle("Cadastro de Clientes");
         //Adicionando a cena na janela
@@ -63,7 +63,7 @@ public class PrincipalController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         
         //Mostrando a nova janela
-        stage.show();
+        stage.show();  
     }
 
     @FXML

@@ -6,6 +6,7 @@
 package ui.cliente.listar;
 
 import dados.entidades.Clientes;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -14,13 +15,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import servicos.ClientesServico;
+import ui.cliente.cadastro.CadastroController;
 import util.AlertaUtil;
 
 /**
@@ -47,6 +55,8 @@ public class ListarController implements Initializable {
     private ClientesServico cliente_servico = new ClientesServico();
     private ObservableList<Clientes> dados = FXCollections.observableArrayList();
     private Clientes cliente_selecionado;
+    @FXML
+    private Button btn_sair_id;
 
     /**
      * Initializes the controller class.
@@ -77,7 +87,31 @@ public class ListarController implements Initializable {
     }
 
     @FXML
-    private void btn_editar(ActionEvent event) {
+    private void btn_editar(ActionEvent event) throws IOException{
+        
+        cliente_selecionado = tbl_clientes.getSelectionModel().getSelectedItem();
+        
+        if (cliente_selecionado != null) {
+            
+            FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/ui/cliente/cadastro/cadastro.fxml"));
+            Parent root = fxmlloader.load();
+            
+            CadastroController cadastroController = fxmlloader.getController();
+            
+            cadastroController.receberCliente(cliente_selecionado);
+            
+           Stage stage = new Stage();
+           stage.setScene(new Scene(root));
+           stage.setTitle("Editar Cliente");
+           
+           stage.show();
+           
+           listarClientesTabela();
+            
+        }else{ 
+            AlertaUtil.mensagemErro("Selecione um cliente");
+        }
+               
     }
 
     @FXML
@@ -88,8 +122,7 @@ public class ListarController implements Initializable {
         if (cliente_selecionado != null) {
 
             Optional<ButtonType> btn
-                    = AlertaUtil.mensagemDeConfirmacao("Deseja mesmo excluir?",
-                            "EXCLUIR");
+                    = AlertaUtil.mensagemDeConfirmacao("Deseja mesmo excluir?","EXCLUIR");
 
             //Verificando se apertou o OK
             if (btn.get() == ButtonType.OK) {
@@ -108,6 +141,12 @@ public class ListarController implements Initializable {
 
     @FXML
     private void btn_sair(ActionEvent event) {
+        fecharJanela(btn_sair_id);
+    }
+    
+    private void fecharJanela(Button button){
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
     }
 
 }

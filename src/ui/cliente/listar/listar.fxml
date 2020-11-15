@@ -22,7 +22,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#btn_editar" prefHeight="34.0" prefWidth="67.0" text="Editar" />
             <Button mnemonicParsing="false" onAction="#btn_excluir" prefHeight="34.0" prefWidth="67.0" text="Excluir" />
-            <Button mnemonicParsing="false" onAction="#btn_sair" prefHeight="34.0" prefWidth="67.0" text="Sair" />
+            <Button fx:id="btn_sair_id" mnemonicParsing="false" onAction="#btn_sair" prefHeight="34.0" prefWidth="67.0" text="Sair" />
          </children>
          <opaqueInsets>
             <Insets />

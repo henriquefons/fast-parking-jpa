@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.cliente.cadastro.CadastroController">
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -52,8 +51,8 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                      <children>
-                        <Button mnemonicParsing="false" onAction="#btn_cancelar" prefHeight="37.0" prefWidth="80.0" text="Cancelar" />
-                        <Button mnemonicParsing="false" onAction="#btn_salvar" prefHeight="37.0" prefWidth="80.0" text="Salvar" />
+                        <Button fx:id="btn_sair_id" mnemonicParsing="false" onAction="#btn_cancelar" prefHeight="37.0" prefWidth="80.0" text="Cancelar" />
+                        <Button fx:id="btn_salvar_id" mnemonicParsing="false" onAction="#btn_salvar" prefHeight="37.0" prefWidth="80.0" text="Salvar" />
                      </children>
                   </HBox>
                </children>

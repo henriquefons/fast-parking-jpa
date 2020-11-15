@@ -25,6 +25,10 @@ public class ClientesServico {
         dao.excluir(c);
     }
     
+    public void editar(Clientes c){
+        dao.editar(c);
+    }
+    
     public List<Clientes> listar(){
         //Qualquer regra de negócio (se aplicável)
         

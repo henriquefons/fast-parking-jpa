@@ -8,11 +8,14 @@ package ui.cliente.cadastro;
 import dados.entidades.Clientes;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import servicos.ClientesServico;
 import util.AlertaUtil;
 
@@ -30,11 +33,16 @@ public class CadastroController implements Initializable {
     @FXML
     private TextField txf_placa;
     @FXML
-    private ComboBox<String> cb_tipoVeiculo;
-    
+    private ComboBox<String> cb_tipoVeiculo;  
     
    // Variaveis criadas
-    ClientesServico cliente_servico = new ClientesServico();
+    private ClientesServico cliente_servico = new ClientesServico();
+    
+    private Clientes cliente_editar;
+    @FXML
+    private Button btn_sair_id;
+    @FXML
+    private Button btn_salvar_id;
 
     /**
      * Initializes the controller class.
@@ -44,16 +52,32 @@ public class CadastroController implements Initializable {
         // TODO
         cb_tipoVeiculo.getItems().removeAll(cb_tipoVeiculo.getItems());
         cb_tipoVeiculo.getItems().setAll("Moto", "Carro");
+      
     }    
 
     @FXML
     private void btn_cancelar(ActionEvent event) {
+        fecharJanela(btn_sair_id);
     }
 
     @FXML
     private void btn_salvar(ActionEvent event) {
         
-        Clientes c = new Clientes(txf_nome.getText(), txf_placa.getText(), txf_cpf.getText(), 
+        //Editar
+        if (cliente_editar!=null){
+            cliente_editar.setNome(txf_nome.getText());
+            cliente_editar.setCpf(txf_cpf.getText());
+            cliente_editar.setPlaca(txf_placa.getText());
+            cliente_editar.setTipo_veiculo(cb_tipoVeiculo.getValue());
+            
+            cliente_servico.editar(cliente_editar);
+            
+            AlertaUtil.mensagemSucesso("Cliente atualizado com sucesso!"); 
+            
+            fecharJanela(btn_salvar_id);
+            
+        }else{ //Adicionar
+            Clientes c = new Clientes(txf_nome.getText(), txf_placa.getText(), txf_cpf.getText(), 
                 cb_tipoVeiculo.getValue(), false);
         
         cliente_servico.salvar(c);
@@ -61,6 +85,7 @@ public class CadastroController implements Initializable {
         AlertaUtil.mensagemSucesso("Cliente salvo com sucesso!");
         
         limpar_campos();
+        }
         
     }
     
@@ -70,6 +95,19 @@ public class CadastroController implements Initializable {
         txf_nome.setText("");
         cb_tipoVeiculo.getItems().removeAll(cb_tipoVeiculo.getItems());
         cb_tipoVeiculo.getItems().setAll("Moto", "Carro");
+    }
+    
+    public void receberCliente(Clientes cliente_editar) {
+        this.cliente_editar = cliente_editar;
+        txf_nome.setText(String.valueOf(cliente_editar.getNome()));
+        txf_cpf.setText(String.valueOf(cliente_editar.getCpf()));
+        txf_placa.setText(String.valueOf(cliente_editar.getPlaca()));
+        cb_tipoVeiculo.getSelectionModel().select(cliente_editar.getTipo_veiculo());
+    }
+    
+    private void fecharJanela(Button button){
+        Stage stage = (Stage) button.getScene().getWindow();
+        stage.close();
     }
     
 }
