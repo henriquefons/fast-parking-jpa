@@ -9,6 +9,7 @@ import dados.entidades.Clientes;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -17,13 +18,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import servicos.ClientesServico;
+import util.AlertaUtil;
 
 /**
  * FXML Controller class
@@ -40,10 +41,9 @@ public class PrincipalController implements Initializable {
     private Text txt_placa;
     @FXML
     private ComboBox<Clientes> cb_placaDigitada;
-    
+
     // Variaveis criadas
     private ClientesServico cliente_servico = new ClientesServico();
-   
 
     /**
      * Initializes the controller class.
@@ -53,8 +53,8 @@ public class PrincipalController implements Initializable {
         // TODO
         listarPlacas();
     }
-    
-    private void listarPlacas(){
+
+    private void listarPlacas() {
         List<Clientes> cliente = cliente_servico.listar();
         cb_placaDigitada.setItems(FXCollections.observableArrayList(cliente));
     }
@@ -90,6 +90,26 @@ public class PrincipalController implements Initializable {
 
     @FXML
     private void prucurarPlaca(ActionEvent event) throws IOException {
+        List<Clientes> cliente = cliente_servico.listar();
+        Clientes c = new Clientes();
+        //Verificar se existe a placa
+        int cont = 0;
+        for (Clientes clientes : cliente) {
+            if (clientes.getPlaca().equals(cb_placaDigitada.getValue())) {
+                cont++;
+                c = clientes;
+            }
+        }
+        //Puxar os dados
+        if(cont > 0){
+            Optional<ButtonType> btn
+                    = AlertaUtil.mensagemDeConfirmacao("Cliente cadastrado", "MENSAGEM");
+            txt_nome.setText(c.getNome());
+            txt_cpf.setText(c.getCpf());
+            txt_placa.setText(c.getPlaca());
+        }else{
+            System.out.println("Cadastrar placa");
+        }
         
     }
 

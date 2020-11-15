@@ -78,16 +78,4 @@ public class ClienteDAO {
         
     }
     
-    public List<Clientes> listarPlacas(){
-        
-        EntityManager gerenciador = JPAUtil.getGerenciador();
-
-        //Criando a consulta ao BD
-        TypedQuery consulta = gerenciador.createQuery("SELECT PLACA FROM Clientes", Clientes.class);
-
-        //Retornar a lista de atores
-        return consulta.getResultList();
-        
-    }
-    
 }

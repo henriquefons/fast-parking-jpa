@@ -105,6 +105,7 @@ public class CadastroController implements Initializable {
     }
 
     public void receberCliente(Clientes cliente_editar) {
+        //Recebe o cliente da tela listar para realizar a alteração
         this.cliente_editar = cliente_editar;
         txt_titulo.setText("Alteração de cliente");
         txf_nome.setText(String.valueOf(cliente_editar.getNome()));

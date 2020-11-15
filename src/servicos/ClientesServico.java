@@ -37,12 +37,4 @@ public class ClientesServico {
         
     }
     
-    public List<Clientes> listarPlacas(){
-        //Qualquer regra de negócio (se aplicável)
-        
-        //Pedir a DAO para listar e retornar
-        return dao.listarPlacas();
-        
-    }
-    
 }
