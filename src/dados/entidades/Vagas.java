@@ -6,6 +6,7 @@
 package dados.entidades;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,12 +28,11 @@ public class Vagas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date saida;
+    @Column(nullable = false, columnDefinition = "DATETIME")
+    private LocalDateTime saida;
     
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date entrada;
+    @Column(nullable = false, columnDefinition = "DATETIME")
+    private LocalDateTime entrada;
     
     
     private BigDecimal valor_final;
@@ -44,7 +44,7 @@ public class Vagas {
     
     public Vagas(){}
 
-    public Vagas(Date entrada, Date saida, BigDecimal valor_final, Estacionamento estacionamento, Clientes clientes) {
+    public Vagas(LocalDateTime entrada, LocalDateTime saida, BigDecimal valor_final, Estacionamento estacionamento, Clientes clientes) {
         this.setEntrada(entrada);
         this.setSaida(saida);
         this.setValor_final(valor_final);
@@ -60,19 +60,19 @@ public class Vagas {
         this.id = id;
     }
 
-    public Date getSaida() {
+    public LocalDateTime getSaida() {
         return saida;
     }
 
-    public void setSaida(Date saida) {
+    public void setSaida(LocalDateTime saida) {
         this.saida = saida;
     }
 
-    public Date getEntrada() {
+    public LocalDateTime getEntrada() {
         return entrada;
     }
 
-    public void setEntrada(Date entrada) {
+    public void setEntrada(LocalDateTime entrada) {
         this.entrada = entrada;
     }
 

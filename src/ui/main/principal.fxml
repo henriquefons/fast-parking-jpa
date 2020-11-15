@@ -84,7 +84,7 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="295.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Horario de entrada: " />
-                        <TextField fx:id="txf_hora_saida" />
+                        <TextField fx:id="txf_hora_entrada" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

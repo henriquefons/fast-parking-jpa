@@ -6,8 +6,11 @@
 package ui.main;
 
 import dados.entidades.Clientes;
+import dados.entidades.Vagas;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -46,16 +49,16 @@ public class PrincipalController implements Initializable {
     private Text txt_placa;
     @FXML
     private ComboBox<Clientes> cb_placaDigitada;
-
-    // Variaveis criadas
-    private ClientesServico cliente_servico = new ClientesServico();
-    @FXML
-    private TextField txf_hora_saida;
     @FXML
     private Button btn_cancelar_id;
     @FXML
     private Button btn_salvar_id;
+    @FXML
+    private TextField txf_hora_entrada;
 
+    // Variaveis criadas
+    private ClientesServico cliente_servico = new ClientesServico();
+    
     /**
      * Initializes the controller class.
      */
@@ -69,43 +72,7 @@ public class PrincipalController implements Initializable {
         List<Clientes> cliente = cliente_servico.listar();
         cb_placaDigitada.setItems(FXCollections.observableArrayList(cliente));
     }
-
-    @FXML
-    private void menu_cadastrarCliente(ActionEvent event) throws IOException {
-
-        Parent root = FXMLLoader.load(getClass()
-                .getResource("/ui/cliente/cadastro/cadastro.fxml"));
-        //Criando a cena
-        Scene scene = new Scene(root);
-        //Criando a janela (STAGE) 
-        Stage stage = new Stage();
-        //Titulo na janela
-        stage.setTitle("Cadastro de Clientes");
-        //Adicionando a cena na janela
-        stage.setScene(scene);
-
-        //Para impedir que a janela seja redimensionada
-        //isso faz a janela ficar igual como está no 
-        //Secene Builder
-        stage.setResizable(false);
-
-        //Configurando o MODALITY
-        //Diz respeito ao comportamento das janelas anteriores
-        //quando essa for mostrada
-        //Para bloquear interação com as janelas anteriores
-        stage.initModality(Modality.APPLICATION_MODAL);
-
-        //Evento para atualizar a tabela quando sair do edit // identifica quando a janela "filho" for fechada
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                listarPlacas();
-            }
-        });
-
-        //Mostrando a nova janela
-        stage.show();
-    }
-
+    
     @FXML
     private void prucurarPlaca(ActionEvent event) throws IOException {
         List<Clientes> cliente = cliente_servico.listar();
@@ -118,7 +85,7 @@ public class PrincipalController implements Initializable {
                 c = clientes;
             }
         }
-        //Puxar os dados
+        //Puxar os dados // verifica se tem ou nao a placa
         if (cont > 0) {
             Optional<ButtonType> btn
                     = AlertaUtil.mensagemDeConfirmacao("Cliente cadastrado", "MENSAGEM");
@@ -126,6 +93,7 @@ public class PrincipalController implements Initializable {
             txt_nome.setText(c.getNome());
             txt_cpf.setText(c.getCpf());
             txt_placa.setText(c.getPlaca());
+            txf_hora_entrada.setText(LocalDateTime.now().toString());
         } else {
             Optional<ButtonType> btn
                     = AlertaUtil.mensagemDeConfirmacao("Cliente não cadastrado, deseja cadastrar?", "MENSAGEM");
@@ -176,6 +144,15 @@ public class PrincipalController implements Initializable {
         btn_cancelar_id.setDisable(true);
         btn_salvar_id.setDisable(true);
     }
+    
+    @FXML
+    private void cancelarEntrada(ActionEvent event) {
+    }
+
+    @FXML
+    private void salvarEntrada(ActionEvent event) {
+        //Vagas v = new Vagas(Date.from(Instant.MIN), null, null, 1, 1);
+    }
 
     @FXML
     private void menu_listarClientes(ActionEvent event) throws IOException {
@@ -204,13 +181,41 @@ public class PrincipalController implements Initializable {
         //Mostrando a nova janela
         stage.show();
     }
-
+    
     @FXML
-    private void cancelarEntrada(ActionEvent event) {
-    }
+    private void menu_cadastrarCliente(ActionEvent event) throws IOException {
 
-    @FXML
-    private void salvarEntrada(ActionEvent event) {
-    }
+        Parent root = FXMLLoader.load(getClass()
+                .getResource("/ui/cliente/cadastro/cadastro.fxml"));
+        //Criando a cena
+        Scene scene = new Scene(root);
+        //Criando a janela (STAGE) 
+        Stage stage = new Stage();
+        //Titulo na janela
+        stage.setTitle("Cadastro de Clientes");
+        //Adicionando a cena na janela
+        stage.setScene(scene);
 
+        //Para impedir que a janela seja redimensionada
+        //isso faz a janela ficar igual como está no 
+        //Secene Builder
+        stage.setResizable(false);
+
+        //Configurando o MODALITY
+        //Diz respeito ao comportamento das janelas anteriores
+        //quando essa for mostrada
+        //Para bloquear interação com as janelas anteriores
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        //Evento para atualizar a tabela quando sair do edit // identifica quando a janela "filho" for fechada
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                listarPlacas();
+            }
+        });
+
+        //Mostrando a nova janela
+        stage.show();
+    }
+    
 }
