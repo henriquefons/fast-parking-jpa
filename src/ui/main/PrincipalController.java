@@ -6,6 +6,7 @@
 package ui.main;
 
 import dados.entidades.Clientes;
+import dados.entidades.Estacionamento;
 import dados.entidades.Vagas;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -31,6 +32,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import servicos.ClientesServico;
+import servicos.EstacionamentoServico;
 import ui.cliente.cadastro.CadastroController;
 import util.AlertaUtil;
 
@@ -58,6 +60,9 @@ public class PrincipalController implements Initializable {
 
     // Variaveis criadas
     private ClientesServico cliente_servico = new ClientesServico();
+    private EstacionamentoServico estacionamento_servico = new EstacionamentoServico();
+    private Estacionamento estacionamento_aux = null;
+    private Clientes cliente_aux = null;
     
     /**
      * Initializes the controller class.
@@ -85,7 +90,7 @@ public class PrincipalController implements Initializable {
                 c = clientes;
             }
         }
-        //Puxar os dados // verifica se tem ou nao a placa
+        //Verifica se tem ou nao a placa, se não tiver abre msg para cadastrar
         if (cont > 0) {
             Optional<ButtonType> btn
                     = AlertaUtil.mensagemDeConfirmacao("Cliente cadastrado", "MENSAGEM");
@@ -94,10 +99,13 @@ public class PrincipalController implements Initializable {
             txt_cpf.setText(c.getCpf());
             txt_placa.setText(c.getPlaca());
             txf_hora_entrada.setText(LocalDateTime.now().toString());
+            
+            cliente_aux = c;
         } else {
             Optional<ButtonType> btn
                     = AlertaUtil.mensagemDeConfirmacao("Cliente não cadastrado, deseja cadastrar?", "MENSAGEM");
-
+            
+            // Se clicar em OK, chama minha tela de cadastro e passa o valor da placa digitada
             if (btn.get() == ButtonType.OK) {
 
                 esconderCampos();
@@ -123,7 +131,7 @@ public class PrincipalController implements Initializable {
                 //Mostrando a nova janela
                 stage.show();
 
-            } else {
+            } else { // se não, limpa os dados e bloquea as ações
                 esconderCampos();
             }
         }
@@ -151,7 +159,7 @@ public class PrincipalController implements Initializable {
 
     @FXML
     private void salvarEntrada(ActionEvent event) {
-        //Vagas v = new Vagas(Date.from(Instant.MIN), null, null, 1, 1);
+        Vagas v = new Vagas(LocalDateTime.now(), null, null, estacionamento_aux, cliente_aux);
     }
 
     @FXML
