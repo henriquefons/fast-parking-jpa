@@ -27,11 +27,10 @@ public class Vagas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
-    @Column(nullable = false, columnDefinition = "DATETIME")
+
     private LocalDateTime saida;
     
-    @Column(nullable = false, columnDefinition = "DATETIME")
+    @Column(nullable = false)
     private LocalDateTime entrada;
     
     

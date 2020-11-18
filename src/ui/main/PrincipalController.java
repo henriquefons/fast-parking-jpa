@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -31,8 +32,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.hibernate.type.descriptor.java.LocalDateTimeJavaDescriptor;
 import servicos.ClientesServico;
 import servicos.EstacionamentoServico;
+import servicos.VagasServico;
 import ui.cliente.cadastro.CadastroController;
 import util.AlertaUtil;
 
@@ -61,8 +64,10 @@ public class PrincipalController implements Initializable {
     // Variaveis criadas
     private ClientesServico cliente_servico = new ClientesServico();
     private EstacionamentoServico estacionamento_servico = new EstacionamentoServico();
+    private VagasServico vagas_servico = new VagasServico();
     private Estacionamento estacionamento_aux = null;
     private Clientes cliente_aux = null;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD hh:mm:ss");
     
     /**
      * Initializes the controller class.
@@ -159,7 +164,11 @@ public class PrincipalController implements Initializable {
 
     @FXML
     private void salvarEntrada(ActionEvent event) {
+        estacionamento_aux = estacionamento_servico.procurarEstacionamentoPorId(1);
+
         Vagas v = new Vagas(LocalDateTime.now(), null, null, estacionamento_aux, cliente_aux);
+        
+        vagas_servico.salvar(v);
     }
 
     @FXML

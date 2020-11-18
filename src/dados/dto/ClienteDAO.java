@@ -19,6 +19,7 @@ public class ClienteDAO {
     
     /**
      * Salvar o ator no BD
+     * @param c
      */
     public void salvar(Clientes c){
         //Pegando o gerenciador de acesso ao BD

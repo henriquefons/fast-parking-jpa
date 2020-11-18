@@ -27,6 +27,8 @@ public class VagaDAO {
 
         //Commit
         gerenciador.getTransaction().commit();
+        
+        gerenciador.close();
     }
     
 }
