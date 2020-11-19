@@ -5,7 +5,7 @@
  */
 package servicos;
 
-import dados.dto.EstacionamentoDAO;
+import dados.daos.EstacionamentoDAO;
 import dados.entidades.Estacionamento;
 
 /**

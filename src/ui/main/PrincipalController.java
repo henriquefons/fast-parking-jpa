@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -32,7 +33,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.hibernate.type.descriptor.java.LocalDateTimeJavaDescriptor;
 import servicos.ClientesServico;
 import servicos.EstacionamentoServico;
 import servicos.VagasServico;
@@ -59,7 +59,21 @@ public class PrincipalController implements Initializable {
     @FXML
     private Button btn_salvar_id;
     @FXML
-    private TextField txf_hora_entrada;
+    private ComboBox<Clientes> cb_placaSaida;
+    @FXML
+    private Text txt_nomeSaida;
+    @FXML
+    private Text txt_cpfSaida;
+    @FXML
+    private Text txt_placaSaida;
+    @FXML
+    private Button btn_cancelar_saida;
+    @FXML
+    private Button btn_salvar_saida;
+    @FXML
+    private Text txt_hora_saida;
+    @FXML
+    private Text txf_hora_entrada;
 
     // Variaveis criadas
     private ClientesServico cliente_servico = new ClientesServico();
@@ -67,8 +81,11 @@ public class PrincipalController implements Initializable {
     private VagasServico vagas_servico = new VagasServico();
     private Estacionamento estacionamento_aux = null;
     private Clientes cliente_aux = null;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD hh:mm:ss");
-    
+    //private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD hh:mm:ss");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM);
+    private LocalDateTime horario_entrada = null;
+    private LocalDateTime horario_saida = null;
+
     /**
      * Initializes the controller class.
      */
@@ -76,40 +93,48 @@ public class PrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         listarPlacas();
+        listarPlacasSaida();
     }
 
     private void listarPlacas() {
-        List<Clientes> cliente = cliente_servico.listar();
+        List<Clientes> cliente = cliente_servico.listarPlacasDesocupadas();
         cb_placaDigitada.setItems(FXCollections.observableArrayList(cliente));
     }
-    
+
+    private void listarPlacasSaida() {
+        List<Clientes> cliente = cliente_servico.listarPlacasOcupadas();
+        cb_placaSaida.setItems(FXCollections.observableArrayList(cliente));
+    }
+
     @FXML
     private void prucurarPlaca(ActionEvent event) throws IOException {
         List<Clientes> cliente = cliente_servico.listar();
-        Clientes c = new Clientes();
-        //Verificar se existe a placa
-        int cont = 0;
+        Clientes c = null;
+        //Verificar se existe a placa para pegar o objeto cliente.
         for (Clientes clientes : cliente) {
             if (clientes.getPlaca().equals(cb_placaDigitada.getValue())) {
-                cont++;
                 c = clientes;
             }
         }
         //Verifica se tem ou nao a placa, se não tiver abre msg para cadastrar
-        if (cont > 0) {
+        if (c != null) {
             Optional<ButtonType> btn
-                    = AlertaUtil.mensagemDeConfirmacao("Cliente cadastrado", "MENSAGEM");
+                    = AlertaUtil.mensagemDeConfirmacao("Seja bem-vindo " + c.getNome(), "MENSAGEM");
             mostrarCampos();
+            esconderCamposSaida();
             txt_nome.setText(c.getNome());
             txt_cpf.setText(c.getCpf());
             txt_placa.setText(c.getPlaca());
-            txf_hora_entrada.setText(LocalDateTime.now().toString());
-            
+
+            //Guardando o horario de entrada
+            horario_entrada = LocalDateTime.now();
+            txf_hora_entrada.setText(horario_entrada.format(formatter));
+
             cliente_aux = c;
         } else {
             Optional<ButtonType> btn
                     = AlertaUtil.mensagemDeConfirmacao("Cliente não cadastrado, deseja cadastrar?", "MENSAGEM");
-            
+
             // Se clicar em OK, chama minha tela de cadastro e passa o valor da placa digitada
             if (btn.get() == ButtonType.OK) {
 
@@ -146,29 +171,76 @@ public class PrincipalController implements Initializable {
         txt_nome.setVisible(true);
         txt_cpf.setVisible(true);
         txt_placa.setVisible(true);
+        txf_hora_entrada.setVisible(true);
         btn_cancelar_id.setDisable(false);
         btn_salvar_id.setDisable(false);
+    }
+
+    private void mostrarCamposSaida() {
+        txt_nomeSaida.setVisible(true);
+        txt_cpfSaida.setVisible(true);
+        txt_placaSaida.setVisible(true);
+        txt_hora_saida.setVisible(true);
+        btn_cancelar_saida.setDisable(false);
+        btn_salvar_saida.setDisable(false);
     }
 
     private void esconderCampos() {
         txt_nome.setVisible(false);
         txt_cpf.setVisible(false);
         txt_placa.setVisible(false);
+        txf_hora_entrada.setVisible(false);
         btn_cancelar_id.setDisable(true);
         btn_salvar_id.setDisable(true);
     }
-    
+
+    private void esconderCamposSaida() {
+        txt_nomeSaida.setVisible(false);
+        txt_cpfSaida.setVisible(false);
+        txt_placaSaida.setVisible(false);
+        txt_hora_saida.setVisible(false);
+        btn_cancelar_saida.setDisable(true);
+        btn_salvar_saida.setDisable(true);
+    }
+
     @FXML
     private void cancelarEntrada(ActionEvent event) {
     }
 
     @FXML
     private void salvarEntrada(ActionEvent event) {
+
+        Optional<ButtonType> btn
+                = AlertaUtil.mensagemDeConfirmacao("Confirmar entrada do cliente?", "MENSAGEM");
         estacionamento_aux = estacionamento_servico.procurarEstacionamentoPorId(1);
 
-        Vagas v = new Vagas(LocalDateTime.now(), null, null, estacionamento_aux, cliente_aux);
-        
-        vagas_servico.salvar(v);
+        if (btn.get() == ButtonType.OK) {
+            //Salvando a vaga
+            Vagas v = new Vagas(horario_entrada, null, null, estacionamento_aux, cliente_aux);
+            vagas_servico.salvar(v);
+
+            //Atualizando a ocupacao do cliente
+            cliente_aux.setOcupacao(true);
+            cliente_servico.editar(cliente_aux);
+
+            AlertaUtil.mensagemSucesso("Horario de entrada: " + horario_entrada.format(formatter));
+            esconderCampos();
+
+            //Setando o cliente
+            cliente_aux = new Clientes();
+
+            //atualizando combobox
+            listarPlacas();
+            listarPlacasSaida();
+
+        } else {
+            //Setando os valores globais
+            cliente_aux = new Clientes();
+            horario_entrada = null;
+
+            AlertaUtil.mensagemErro("Cancelado");
+            esconderCampos();
+        }
     }
 
     @FXML
@@ -198,7 +270,7 @@ public class PrincipalController implements Initializable {
         //Mostrando a nova janela
         stage.show();
     }
-    
+
     @FXML
     private void menu_cadastrarCliente(ActionEvent event) throws IOException {
 
@@ -234,5 +306,64 @@ public class PrincipalController implements Initializable {
         //Mostrando a nova janela
         stage.show();
     }
-    
+
+    @FXML
+    private void prucurarPlacaSaida(ActionEvent event) {
+
+        Clientes c = cb_placaSaida.getValue();
+
+        AlertaUtil.mensagemDeConfirmacao("Até mais, " + c.getNome() + "!", "MENSAGEM");
+        txt_nomeSaida.setText(c.getNome());
+        txt_cpfSaida.setText(c.getCpf());
+        txt_placaSaida.setText(c.getPlaca());
+        horario_saida = LocalDateTime.now();
+        txt_hora_saida.setText(horario_saida.format(formatter));
+        mostrarCamposSaida();
+        esconderCampos();
+    }
+
+    @FXML
+    private void cancelarsaida(ActionEvent event) {
+    }
+
+    @FXML
+    private void salvarSaida(ActionEvent event) {
+        Optional<ButtonType> btn
+                = AlertaUtil.mensagemDeConfirmacao("Confirmar saida do cliente?", "MENSAGEM");
+        
+        if (btn.get() == ButtonType.OK) {
+            //retorna uma lista com 1 objetivo vagas atraves da consulta passando id do cliente
+            List<Vagas> vlist = vagas_servico.buscarPeloCliente(cb_placaSaida.getValue().getId());
+            //Faço uma verificação para ver se tem somente 1 elemento msm
+            if (vlist.size() == 1) {
+                
+                //Vou passar o id para minha vaga e atualizar o horario de saida
+                //Como só tenho 1 elemento, posso usar o get na posicao do elemento (0) e pegar o objeto dele 
+                Vagas v = vlist.get(0);
+                v.setSaida(horario_saida);
+                vagas_servico.editar(v);
+                
+                //Colocar o cliente como nao ocupado. Pego o objetivo-cliente do cambo box
+                Clientes c = cb_placaSaida.getValue();
+                c.setOcupacao(false);
+                cliente_servico.editar(c);
+                
+                AlertaUtil.mensagemSucesso("Obrigado pela preferencia! Valor final: " + v.getValor_final());
+                listarPlacas();
+                listarPlacasSaida();
+                esconderCamposSaida();
+            }else{ 
+                AlertaUtil.mensagemErro("Aconteceu um erro inesperado, tente novamento ou chame o suporte!");
+                esconderCamposSaida();
+                horario_saida = null;
+            }
+            
+        } else{
+            esconderCamposSaida();
+        }
+        //Calcular o preco
+        // ....
+        
+    }
+
 }

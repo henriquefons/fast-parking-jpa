@@ -15,9 +15,9 @@ import servicos.ClientesServico;
 public class TestaClientes {
     
     public static void main(String[] args) {
-        Clientes c1 = new Clientes("Joao", "AKA5865", "147.456.852-40", "Carro", true);
-        Clientes c2 = new Clientes("Maria", "LOR7145", "312.322.421-36", "Carro", true);
-        Clientes c3 = new Clientes("Jose", "CVQ4563", "752.312.266-88", "Moto", true);
+        Clientes c1 = new Clientes("Joao", "AKA5865", "147.456.852-40", "Carro", false);
+        Clientes c2 = new Clientes("Maria", "LOR7145", "312.322.421-36", "Carro", false);
+        Clientes c3 = new Clientes("Jose", "CVQ4563", "752.312.266-88", "Moto", false);
         
         ClientesServico c = new ClientesServico();
         

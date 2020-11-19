@@ -5,7 +5,7 @@
  */
 package servicos;
 
-import dados.dto.ClienteDAO;
+import dados.daos.ClienteDAO;
 import dados.entidades.Clientes;
 import java.util.List;
 
@@ -35,6 +35,14 @@ public class ClientesServico {
         //Pedir a DAO para listar e retornar
         return dao.listar();
         
+    }
+    
+    public List<Clientes> listarPlacasDesocupadas(){
+        return dao.listarPlacasDesocupadas();
+    }
+    
+    public List<Clientes> listarPlacasOcupadas(){
+        return dao.listarPlacasOcupadas();
     }
     
 }

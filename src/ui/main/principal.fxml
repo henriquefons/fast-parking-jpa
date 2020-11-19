@@ -7,7 +7,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -84,7 +83,7 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="295.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Horario de entrada: " />
-                        <TextField fx:id="txf_hora_entrada" />
+                        <Text fx:id="txf_hora_entrada" strokeType="OUTSIDE" strokeWidth="0.0" text="{{nome}}" visible="false" wrappingWidth="155.91796875" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -100,9 +99,62 @@
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox prefHeight="200.0" prefWidth="295.0">
+            <VBox prefWidth="295.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <HBox alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="43.0" prefWidth="295.0" spacing="20.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Saida Cliente" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" fillHeight="false" prefHeight="60.0" prefWidth="295.0" spacing="20.0">
+                     <children>
+                        <ComboBox fx:id="cb_placaSaida" prefWidth="150.0" promptText="Digite a placa" />
+                        <Button mnemonicParsing="false" onAction="#prucurarPlacaSaida" text="Procurar" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="295.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nome: " />
+                        <Text fx:id="txt_nomeSaida" strokeType="OUTSIDE" strokeWidth="0.0" text="{{nome}}" visible="false" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="295.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CPF: " />
+                        <Text fx:id="txt_cpfSaida" strokeType="OUTSIDE" strokeWidth="0.0" text="{{nome}}" visible="false" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="295.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Placa: " />
+                        <Text fx:id="txt_placaSaida" strokeType="OUTSIDE" strokeWidth="0.0" text="{{nome}}" visible="false" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="295.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Horario de saida: " />
+                        <Text fx:id="txt_hora_saida" strokeType="OUTSIDE" strokeWidth="0.0" text="{{nome}}" visible="false" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <Separator prefWidth="80.0" />
+                  <HBox alignment="CENTER" prefHeight="66.0" prefWidth="295.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="btn_cancelar_saida" disable="true" mnemonicParsing="false" onAction="#cancelarsaida" style="-fx-background-color: yellow;" text="Cancelar" />
+                        <Button fx:id="btn_salvar_saida" disable="true" mnemonicParsing="false" onAction="#salvarSaida" style="-fx-background-color: green;" text="Confirmar" textFill="WHITE" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>

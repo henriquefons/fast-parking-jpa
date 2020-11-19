@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dados.dto;
+package dados.daos;
 
-import dados.entidades.Clientes;
+import dados.entidades.Vagas;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -15,13 +18,9 @@ import util.JPAUtil;
  *
  * @author Henrique
  */
-public class ClienteDAO {
+public class VagaDAO {
     
-    /**
-     * Salvar o ator no BD
-     * @param c
-     */
-    public void salvar(Clientes c){
+    public void salvar(Vagas v){
         //Pegando o gerenciador de acesso ao BD
         EntityManager gerenciador = JPAUtil.getGerenciador();
 
@@ -29,13 +28,15 @@ public class ClienteDAO {
         gerenciador.getTransaction().begin();
 
         //Mandar persistir o ator
-        gerenciador.persist(c);
+        gerenciador.persist(v);
 
         //Commit
         gerenciador.getTransaction().commit();
+        
+        gerenciador.close();
     }
     
-    public void editar(Clientes c){
+    public void editar(Vagas v){
         //Pegando o gerenciador de acesso ao BD
         EntityManager gerenciador = JPAUtil.getGerenciador();
         
@@ -43,40 +44,30 @@ public class ClienteDAO {
         gerenciador.getTransaction().begin();
 
         //Mandar sincronizar as alterações 
-        gerenciador.merge(c);
+        gerenciador.merge(v);
         
         //Commit na transação
         gerenciador.getTransaction().commit();
     }
     
-    public void excluir(Clientes c){
-        EntityManager gerenciador = JPAUtil.getGerenciador();
-        
-        //Iniciar a transação
-        gerenciador.getTransaction().begin();
-        
-        //Para excluir tem que dar o merge primeiro para 
-        //sincronizar o ator do BD com o ator que foi
-        //selecionado na tela
-        c = gerenciador.merge(c);
-
-        //Mandar sincronizar as alterações 
-        gerenciador.remove(c);
-        
-        //Commit na transação
-        gerenciador.getTransaction().commit();
-    }
-    
-    public List<Clientes> listar(){
-        
+    public List<Vagas> buscarPeloCliente(Integer id){
+       
         EntityManager gerenciador = JPAUtil.getGerenciador();
 
         //Criando a consulta ao BD
-        TypedQuery consulta = gerenciador.createQuery("Select c from Clientes c", Clientes.class);
+        TypedQuery<Vagas> consulta = gerenciador.createQuery(
+                "Select v from Vagas v WHERE saida is null and clientes_id = :id", Vagas.class);
 
-        //Retornar a lista de atores
+        //Substituindo o parametro :nome pelo valor da variavel n
+        consulta.setParameter("id", id + "%");
+
+        //Retornar os dados
         return consulta.getResultList();
-        
+    }
+    
+    public BigDecimal valorFinal (LocalDateTime entrada, LocalDateTime saida, BigDecimal precoHora){
+        long minutos = ChronoUnit.MINUTES.between(entrada, saida);
+        return null; //BigDecimal.valueOf(BigDecimal(minutos).divide().*precoHora);
     }
     
 }

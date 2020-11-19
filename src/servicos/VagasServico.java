@@ -5,7 +5,7 @@
  */
 package servicos;
 
-import dados.dto.VagaDAO;
+import dados.daos.VagaDAO;
 import dados.entidades.Vagas;
 import java.util.List;
 
@@ -19,6 +19,14 @@ public class VagasServico {
     
     public void salvar(Vagas v){
         dao.salvar(v);
+    }
+    
+    public List<Vagas> buscarPeloCliente(Integer id){
+        return dao.buscarPeloCliente(id);
+    }
+    
+    public void editar(Vagas v){
+        dao.editar(v);
     }
     
 }

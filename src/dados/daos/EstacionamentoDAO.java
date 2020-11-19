@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dados.dto;
+package dados.daos;
 
 import dados.entidades.Estacionamento;
 import javax.persistence.EntityManager;
