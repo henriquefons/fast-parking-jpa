@@ -30,7 +30,7 @@ public class OutrosTestes {
         
         EstacionamentoServico est = new EstacionamentoServico();
         
-        System.out.println(est.procurarEstacionamentoPorId(2));
+        System.out.println(est.procurarEstacionamentoPorId(1));
         
         
         /*

@@ -23,15 +23,16 @@ public class EstacionamentoDAO {
          //Iniciar a transação
         gerenciador.getTransaction().begin();
         
-            if (procurarEstacionamentoPorId(1) != null) {
+            if (procurarEstacionamentoPorId(1) == null) {
                 //criar o estacionamento
-                gerenciador.persist(est);
+                gerenciador.persist(est);                
             } else {
                 //atualizar o estacionamento
                 gerenciador.merge(est);
             }
         } catch (Exception e) {
             gerenciador.getTransaction().rollback();
+            System.out.println(e);
         } finally {
             gerenciador.getTransaction().commit();
             gerenciador.close();
