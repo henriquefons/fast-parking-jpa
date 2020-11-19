@@ -78,4 +78,17 @@ public class VagaDAO {
         
     }
     
+    public List<Vagas> listarVagasSaidas(){
+       
+        EntityManager gerenciador = JPAUtil.getGerenciador();
+
+        //Criando a consulta ao BD
+        TypedQuery<Vagas> consulta = gerenciador.createQuery("SELECT v.id, c.placa, c.nome, v.entrada, v.saida, v.valor_final "
+                + "FROM Vagas AS v INNER JOIN Clientes as c ON v.clientes_id = c.id "
+                + "WHERE saida is not null", Vagas.class);
+
+        //Retornar os dados
+        return consulta.getResultList();
+    }
+    
 }

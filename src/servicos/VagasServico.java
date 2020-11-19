@@ -35,4 +35,8 @@ public class VagasServico {
         return dao.valorFinal(entrada, saida, precoHora);
     }
     
+    public List<Vagas> listarVagasSaidas(){
+        return dao.listarVagasSaidas();
+    }
+    
 }

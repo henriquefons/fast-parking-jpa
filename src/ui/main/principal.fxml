@@ -25,8 +25,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Vagas">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Listar" />
-                  <MenuItem mnemonicParsing="false" text="Historico" />
+                  <MenuItem mnemonicParsing="false" onAction="#abrirJanelaHistorico" text="Historico" />
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Configurações">

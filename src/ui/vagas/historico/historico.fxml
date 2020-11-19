@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.vagas.historico.HistoricoController">
+   <center>
+      <TableView fx:id="table_historico" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="col_id" prefWidth="36.0" text="ID" />
+          <TableColumn fx:id="col_placa" prefWidth="83.0" text="Placa" />
+            <TableColumn fx:id="col_nome" prefWidth="112.0" text="Nome" />
+            <TableColumn fx:id="col_horario_entrada" prefWidth="146.0" text="Horario entrada" />
+            <TableColumn fx:id="col_horario_saida" prefWidth="146.0" text="Horario saida" />
+            <TableColumn fx:id="col_valor_final" prefWidth="76.0" text="Valor final" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>
