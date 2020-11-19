@@ -28,6 +28,7 @@ public class OutrosTestes {
     
     public static void main(String[] args) {
         
+        EstacionamentoServico est = new EstacionamentoServico();
         VagaDAO vagas = new VagaDAO();
         
         
@@ -38,18 +39,20 @@ public class OutrosTestes {
         LocalDateTime inicio = LocalDateTime.of(2020, 5, 5, 10, 0, 0);
         LocalDateTime fim = LocalDateTime.of(2020, 5, 5, 11, 30, 0);
         
+        
+        BigDecimal x = est.procurarEstacionamentoPorId(1).getPrice_hours();
+        
+        System.out.println(x);
         System.out.println(ChronoUnit.HOURS.between(inicio, fim));
-        System.out.println(ChronoUnit.MINUTES.between(inicio, fim));
+        
         
         long minutos = ChronoUnit.MINUTES.between(inicio, fim);
-        BigDecimal min = new BigDecimal(ChronoUnit.MINUTES.between(inicio, fim));
-        
+        System.out.println(minutos);
         BigDecimal d1 = new BigDecimal(minutos);
-        d1.divide(d1, 2, RoundingMode.UP);
         
-        System.out.println(new BigDecimal(minutos).divide(min, 2, RoundingMode.UP));
+        System.out.println(new BigDecimal(minutos).divide(BigDecimal.valueOf(60), 2, RoundingMode.UP));
         
-        System.out.println(minutos/60.00*10);
+        System.out.println(d1);
         
     }
     

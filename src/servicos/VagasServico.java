@@ -7,6 +7,8 @@ package servicos;
 
 import dados.daos.VagaDAO;
 import dados.entidades.Vagas;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,6 +29,10 @@ public class VagasServico {
     
     public void editar(Vagas v){
         dao.editar(v);
+    }
+    
+    public BigDecimal valorFinal (LocalDateTime entrada, LocalDateTime saida, BigDecimal precoHora){
+        return dao.valorFinal(entrada, saida, precoHora);
     }
     
 }

@@ -151,7 +151,7 @@
                   <Separator prefWidth="80.0" />
                   <HBox alignment="CENTER" prefHeight="66.0" prefWidth="295.0" spacing="20.0">
                      <children>
-                        <Button fx:id="btn_cancelar_saida" disable="true" mnemonicParsing="false" onAction="#cancelarsaida" style="-fx-background-color: yellow;" text="Cancelar" />
+                        <Button fx:id="btn_cancelar_saida" disable="true" mnemonicParsing="false" onAction="#cancelarSaida" style="-fx-background-color: yellow;" text="Cancelar" />
                         <Button fx:id="btn_salvar_saida" disable="true" mnemonicParsing="false" onAction="#salvarSaida" style="-fx-background-color: green;" text="Confirmar" textFill="WHITE" />
                      </children>
                   </HBox>

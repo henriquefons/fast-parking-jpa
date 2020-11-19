@@ -79,9 +79,7 @@ public class PrincipalController implements Initializable {
     private ClientesServico cliente_servico = new ClientesServico();
     private EstacionamentoServico estacionamento_servico = new EstacionamentoServico();
     private VagasServico vagas_servico = new VagasServico();
-    private Estacionamento estacionamento_aux = null;
     private Clientes cliente_aux = null;
-    //private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD hh:mm:ss");
     private DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM);
     private LocalDateTime horario_entrada = null;
     private LocalDateTime horario_saida = null;
@@ -95,17 +93,7 @@ public class PrincipalController implements Initializable {
         listarPlacas();
         listarPlacasSaida();
     }
-
-    private void listarPlacas() {
-        List<Clientes> cliente = cliente_servico.listarPlacasDesocupadas();
-        cb_placaDigitada.setItems(FXCollections.observableArrayList(cliente));
-    }
-
-    private void listarPlacasSaida() {
-        List<Clientes> cliente = cliente_servico.listarPlacasOcupadas();
-        cb_placaSaida.setItems(FXCollections.observableArrayList(cliente));
-    }
-
+    
     @FXML
     private void prucurarPlaca(ActionEvent event) throws IOException {
         List<Clientes> cliente = cliente_servico.listar();
@@ -167,42 +155,6 @@ public class PrincipalController implements Initializable {
         }
     }
 
-    private void mostrarCampos() {
-        txt_nome.setVisible(true);
-        txt_cpf.setVisible(true);
-        txt_placa.setVisible(true);
-        txf_hora_entrada.setVisible(true);
-        btn_cancelar_id.setDisable(false);
-        btn_salvar_id.setDisable(false);
-    }
-
-    private void mostrarCamposSaida() {
-        txt_nomeSaida.setVisible(true);
-        txt_cpfSaida.setVisible(true);
-        txt_placaSaida.setVisible(true);
-        txt_hora_saida.setVisible(true);
-        btn_cancelar_saida.setDisable(false);
-        btn_salvar_saida.setDisable(false);
-    }
-
-    private void esconderCampos() {
-        txt_nome.setVisible(false);
-        txt_cpf.setVisible(false);
-        txt_placa.setVisible(false);
-        txf_hora_entrada.setVisible(false);
-        btn_cancelar_id.setDisable(true);
-        btn_salvar_id.setDisable(true);
-    }
-
-    private void esconderCamposSaida() {
-        txt_nomeSaida.setVisible(false);
-        txt_cpfSaida.setVisible(false);
-        txt_placaSaida.setVisible(false);
-        txt_hora_saida.setVisible(false);
-        btn_cancelar_saida.setDisable(true);
-        btn_salvar_saida.setDisable(true);
-    }
-
     @FXML
     private void cancelarEntrada(ActionEvent event) {
     }
@@ -212,11 +164,10 @@ public class PrincipalController implements Initializable {
 
         Optional<ButtonType> btn
                 = AlertaUtil.mensagemDeConfirmacao("Confirmar entrada do cliente?", "MENSAGEM");
-        estacionamento_aux = estacionamento_servico.procurarEstacionamentoPorId(1);
 
         if (btn.get() == ButtonType.OK) {
             //Salvando a vaga
-            Vagas v = new Vagas(horario_entrada, null, null, estacionamento_aux, cliente_aux);
+            Vagas v = new Vagas(horario_entrada, null, null, estacionamento_servico.procurarEstacionamentoPorId(1), cliente_aux);
             vagas_servico.salvar(v);
 
             //Atualizando a ocupacao do cliente
@@ -323,47 +274,95 @@ public class PrincipalController implements Initializable {
     }
 
     @FXML
-    private void cancelarsaida(ActionEvent event) {
-    }
-
-    @FXML
     private void salvarSaida(ActionEvent event) {
         Optional<ButtonType> btn
                 = AlertaUtil.mensagemDeConfirmacao("Confirmar saida do cliente?", "MENSAGEM");
-        
+
         if (btn.get() == ButtonType.OK) {
             //retorna uma lista com 1 objetivo vagas atraves da consulta passando id do cliente
             List<Vagas> vlist = vagas_servico.buscarPeloCliente(cb_placaSaida.getValue().getId());
             //Faço uma verificação para ver se tem somente 1 elemento msm
             if (vlist.size() == 1) {
-                
+
                 //Vou passar o id para minha vaga e atualizar o horario de saida
                 //Como só tenho 1 elemento, posso usar o get na posicao do elemento (0) e pegar o objeto dele 
                 Vagas v = vlist.get(0);
                 v.setSaida(horario_saida);
+                v.setValor_final(vagas_servico.valorFinal(v.getEntrada(), horario_saida,
+                        estacionamento_servico.procurarEstacionamentoPorId(1).getPrice_hours()));
                 vagas_servico.editar(v);
-                
+
                 //Colocar o cliente como nao ocupado. Pego o objetivo-cliente do cambo box
                 Clientes c = cb_placaSaida.getValue();
                 c.setOcupacao(false);
                 cliente_servico.editar(c);
-                
+
                 AlertaUtil.mensagemSucesso("Obrigado pela preferencia! Valor final: " + v.getValor_final());
                 listarPlacas();
                 listarPlacasSaida();
                 esconderCamposSaida();
-            }else{ 
+            } else {
                 AlertaUtil.mensagemErro("Aconteceu um erro inesperado, tente novamento ou chame o suporte!");
                 esconderCamposSaida();
                 horario_saida = null;
             }
-            
-        } else{
+
+        } else {
             esconderCamposSaida();
         }
         //Calcular o preco
         // ....
-        
+
+    }
+
+    @FXML
+    private void cancelarSaida(ActionEvent event) {
+    }
+
+    private void mostrarCampos() {
+        txt_nome.setVisible(true);
+        txt_cpf.setVisible(true);
+        txt_placa.setVisible(true);
+        txf_hora_entrada.setVisible(true);
+        btn_cancelar_id.setDisable(false);
+        btn_salvar_id.setDisable(false);
+    }
+
+    private void mostrarCamposSaida() {
+        txt_nomeSaida.setVisible(true);
+        txt_cpfSaida.setVisible(true);
+        txt_placaSaida.setVisible(true);
+        txt_hora_saida.setVisible(true);
+        btn_cancelar_saida.setDisable(false);
+        btn_salvar_saida.setDisable(false);
+    }
+
+    private void esconderCampos() {
+        txt_nome.setVisible(false);
+        txt_cpf.setVisible(false);
+        txt_placa.setVisible(false);
+        txf_hora_entrada.setVisible(false);
+        btn_cancelar_id.setDisable(true);
+        btn_salvar_id.setDisable(true);
+    }
+
+    private void esconderCamposSaida() {
+        txt_nomeSaida.setVisible(false);
+        txt_cpfSaida.setVisible(false);
+        txt_placaSaida.setVisible(false);
+        txt_hora_saida.setVisible(false);
+        btn_cancelar_saida.setDisable(true);
+        btn_salvar_saida.setDisable(true);
+    }
+    
+    private void listarPlacas() {
+        List<Clientes> cliente = cliente_servico.listarPlacasDesocupadas();
+        cb_placaDigitada.setItems(FXCollections.observableArrayList(cliente));
+    }
+
+    private void listarPlacasSaida() {
+        List<Clientes> cliente = cliente_servico.listarPlacasOcupadas();
+        cb_placaSaida.setItems(FXCollections.observableArrayList(cliente));
     }
 
 }

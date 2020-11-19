@@ -7,6 +7,7 @@ package dados.daos;
 
 import dados.entidades.Vagas;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -58,7 +59,7 @@ public class VagaDAO {
         TypedQuery<Vagas> consulta = gerenciador.createQuery(
                 "Select v from Vagas v WHERE saida is null and clientes_id = :id", Vagas.class);
 
-        //Substituindo o parametro :nome pelo valor da variavel n
+        //Substituindo o parametro :id pelo valor da variavel id
         consulta.setParameter("id", id + "%");
 
         //Retornar os dados
@@ -66,8 +67,15 @@ public class VagaDAO {
     }
     
     public BigDecimal valorFinal (LocalDateTime entrada, LocalDateTime saida, BigDecimal precoHora){
+        // Faz o calculo da diferenca de minutos dos horarios
         long minutos = ChronoUnit.MINUTES.between(entrada, saida);
-        return null; //BigDecimal.valueOf(BigDecimal(minutos).divide().*precoHora);
+        
+        //Converter os minutos para realizar a multiplicação do precoHora
+        BigDecimal minutos_convertidos = new BigDecimal(minutos).divide(BigDecimal.valueOf(60), 2, RoundingMode.UP);
+        
+        // Retorna o valor final
+        return precoHora.multiply(minutos_convertidos);
+        
     }
     
 }
