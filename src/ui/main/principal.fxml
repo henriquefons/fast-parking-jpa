@@ -29,9 +29,9 @@
                   <MenuItem mnemonicParsing="false" text="Historico" />
                </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Ajuda">
+          <Menu mnemonicParsing="false" text="Configurações">
             <items>
-              <MenuItem mnemonicParsing="false" text="Sobre" />
+              <MenuItem mnemonicParsing="false" onAction="#abrirJanelaEstacionamento" text="Estacionamento" />
             </items>
           </Menu>
         </menus>
@@ -163,12 +163,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="23.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Henrique Solutions - ">
-               <font>
-                  <Font name="MS Reference Specialty" size="11.0" />
-               </font>
-            </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="{{nome do estacionamento}}">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Henrique Solutions ">
                <font>
                   <Font name="MS Reference Specialty" size="11.0" />
                </font>

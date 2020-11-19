@@ -20,4 +20,8 @@ public class EstacionamentoServico {
         return dao.procurarEstacionamentoPorId(id);
     }
     
+    public void salvarOuAtualizar(Estacionamento est){
+        dao.salvarOuAtualizar(est);
+    }
+    
 }

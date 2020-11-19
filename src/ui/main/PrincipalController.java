@@ -6,10 +6,8 @@
 package ui.main;
 
 import dados.entidades.Clientes;
-import dados.entidades.Estacionamento;
 import dados.entidades.Vagas;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +26,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -117,7 +114,8 @@ public class PrincipalController implements Initializable {
             //Guardando o horario de entrada
             horario_entrada = LocalDateTime.now();
             txf_hora_entrada.setText(horario_entrada.format(formatter));
-
+            
+            //Salva o cliente selecionado no cliente auxiliar
             cliente_aux = c;
         } else {
             Optional<ButtonType> btn
@@ -310,9 +308,7 @@ public class PrincipalController implements Initializable {
         } else {
             esconderCamposSaida();
         }
-        //Calcular o preco
-        // ....
-
+        
     }
 
     @FXML
@@ -363,6 +359,43 @@ public class PrincipalController implements Initializable {
     private void listarPlacasSaida() {
         List<Clientes> cliente = cliente_servico.listarPlacasOcupadas();
         cb_placaSaida.setItems(FXCollections.observableArrayList(cliente));
+    }
+
+    @FXML
+    private void abrirJanelaEstacionamento(ActionEvent event) throws IOException {
+        
+        Parent root = FXMLLoader.load(getClass()
+                .getResource("/ui/estacionamento/gerenciar/configuracao.fxml"));
+        //Criando a cena
+        Scene scene = new Scene(root);
+        //Criando a janela (STAGE) 
+        Stage stage = new Stage();
+        //Titulo na janela
+        stage.setTitle("Configuração estacionamento");
+        //Adicionando a cena na janela
+        stage.setScene(scene);
+
+        //Para impedir que a janela seja redimensionada
+        //isso faz a janela ficar igual como está no 
+        //Secene Builder
+        stage.setResizable(false);
+
+        //Configurando o MODALITY
+        //Diz respeito ao comportamento das janelas anteriores
+        //quando essa for mostrada
+        //Para bloquear interação com as janelas anteriores
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        /*
+        //Evento para atualizar a tabela quando sair do edit // identifica quando a janela "filho" for fechada
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                listarPlacas();
+            }
+        });*/
+
+        //Mostrando a nova janela
+        stage.show();
     }
 
 }

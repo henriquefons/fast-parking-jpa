@@ -29,6 +29,11 @@ public class OutrosTestes {
     public static void main(String[] args) {
         
         EstacionamentoServico est = new EstacionamentoServico();
+        
+        System.out.println(est.procurarEstacionamentoPorId(2));
+        
+        
+        /*
         VagaDAO vagas = new VagaDAO();
         
         
@@ -53,6 +58,7 @@ public class OutrosTestes {
         System.out.println(new BigDecimal(minutos).divide(BigDecimal.valueOf(60), 2, RoundingMode.UP));
         
         System.out.println(d1);
+*/
         
     }
     

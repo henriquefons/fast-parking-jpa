@@ -15,6 +15,29 @@ import util.JPAUtil;
  */
 public class EstacionamentoDAO {
     
+    public void salvarOuAtualizar(Estacionamento est){
+        
+        EntityManager gerenciador = JPAUtil.getGerenciador();
+        
+        try {
+         //Iniciar a transação
+        gerenciador.getTransaction().begin();
+        
+            if (procurarEstacionamentoPorId(1) != null) {
+                //criar o estacionamento
+                gerenciador.persist(est);
+            } else {
+                //atualizar o estacionamento
+                gerenciador.merge(est);
+            }
+        } catch (Exception e) {
+            gerenciador.getTransaction().rollback();
+        } finally {
+            gerenciador.getTransaction().commit();
+            gerenciador.close();
+        }
+    }
+    
     public Estacionamento procurarEstacionamentoPorId(Integer id){
         
         Estacionamento estacionamento = null;
