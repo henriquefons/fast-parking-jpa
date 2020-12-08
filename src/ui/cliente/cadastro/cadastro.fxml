@@ -13,7 +13,7 @@
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="400.0" prefWidth="241.0" style="-fx-background-color: red;" />
+            <VBox prefHeight="400.0" prefWidth="241.0" style="-fx-background-color: black;" />
             <VBox prefHeight="400.0" prefWidth="385.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="73.0" prefWidth="372.0">
@@ -51,8 +51,8 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                      <children>
-                        <Button fx:id="btn_sair_id" mnemonicParsing="false" onAction="#btn_cancelar" prefHeight="37.0" prefWidth="80.0" text="Sair" />
-                        <Button fx:id="btn_salvar_id" mnemonicParsing="false" onAction="#btn_salvar" prefHeight="37.0" prefWidth="80.0" text="Salvar" />
+                        <Button fx:id="btn_sair_id" mnemonicParsing="false" onAction="#btn_cancelar" prefHeight="37.0" prefWidth="80.0" style="-fx-background-color: red;" text="Sair" textFill="WHITE" />
+                        <Button fx:id="btn_salvar_id" mnemonicParsing="false" onAction="#btn_salvar" prefHeight="37.0" prefWidth="80.0" style="-fx-background-color: green;" text="Salvar" textFill="WHITE" />
                      </children>
                   </HBox>
                </children>

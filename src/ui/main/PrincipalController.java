@@ -90,7 +90,7 @@ public class PrincipalController implements Initializable {
         listarPlacas();
         listarPlacasSaida();
     }
-    
+
     @FXML
     private void prucurarPlaca(ActionEvent event) throws IOException {
         List<Clientes> cliente = cliente_servico.listar();
@@ -114,7 +114,7 @@ public class PrincipalController implements Initializable {
             //Guardando o horario de entrada
             horario_entrada = LocalDateTime.now();
             txf_hora_entrada.setText(horario_entrada.format(formatter));
-            
+
             //Salva o cliente selecionado no cliente auxiliar
             cliente_aux = c;
         } else {
@@ -155,6 +155,9 @@ public class PrincipalController implements Initializable {
 
     @FXML
     private void cancelarEntrada(ActionEvent event) {
+        //Setando o cliente auxiliar
+        cliente_aux = new Clientes();
+        esconderCampos();
     }
 
     @FXML
@@ -175,7 +178,7 @@ public class PrincipalController implements Initializable {
             AlertaUtil.mensagemSucesso("Horario de entrada: " + horario_entrada.format(formatter));
             esconderCampos();
 
-            //Setando o cliente
+            //Setando o cliente auxiliar
             cliente_aux = new Clientes();
 
             //atualizando combobox
@@ -281,9 +284,8 @@ public class PrincipalController implements Initializable {
             List<Vagas> vlist = vagas_servico.buscarPeloCliente(cb_placaSaida.getValue().getId());
             //Faço uma verificação para ver se tem somente 1 elemento msm
             if (vlist.size() == 1) {
-
                 //Vou passar o id para minha vaga e atualizar o horario de saida
-                //Como só tenho 1 elemento, posso usar o get na posicao do elemento (0) e pegar o objeto dele 
+                //Como só tenho 1 elemento, posso usar o get na posicao do elemento (0) e pegar o objeto dele (GARMBIARRA MSM)
                 Vagas v = vlist.get(0);
                 v.setSaida(horario_saida);
                 v.setValor_final(vagas_servico.valorFinal(v.getEntrada(), horario_saida,
@@ -308,11 +310,12 @@ public class PrincipalController implements Initializable {
         } else {
             esconderCamposSaida();
         }
-        
+
     }
 
     @FXML
     private void cancelarSaida(ActionEvent event) {
+        esconderCamposSaida();
     }
 
     private void mostrarCampos() {
@@ -350,7 +353,7 @@ public class PrincipalController implements Initializable {
         btn_cancelar_saida.setDisable(true);
         btn_salvar_saida.setDisable(true);
     }
-    
+
     private void listarPlacas() {
         List<Clientes> cliente = cliente_servico.listarPlacasDesocupadas();
         cb_placaDigitada.setItems(FXCollections.observableArrayList(cliente));
@@ -363,7 +366,7 @@ public class PrincipalController implements Initializable {
 
     @FXML
     private void abrirJanelaEstacionamento(ActionEvent event) throws IOException {
-        
+
         Parent root = FXMLLoader.load(getClass()
                 .getResource("/ui/estacionamento/gerenciar/configuracao.fxml"));
         //Criando a cena
@@ -393,7 +396,6 @@ public class PrincipalController implements Initializable {
                 listarPlacas();
             }
         });*/
-
         //Mostrando a nova janela
         stage.show();
     }

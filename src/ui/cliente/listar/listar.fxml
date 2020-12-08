@@ -20,8 +20,8 @@
       </TableView>
       <HBox alignment="CENTER" layoutY="366.0" prefHeight="70.0" prefWidth="600.0" spacing="25.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#btn_editar" prefHeight="34.0" prefWidth="67.0" text="Editar" />
-            <Button mnemonicParsing="false" onAction="#btn_excluir" prefHeight="34.0" prefWidth="67.0" text="Excluir" />
+            <Button mnemonicParsing="false" onAction="#btn_editar" prefHeight="34.0" prefWidth="67.0" style="-fx-background-color: yellow;" text="Editar" />
+            <Button mnemonicParsing="false" onAction="#btn_excluir" prefHeight="34.0" prefWidth="67.0" style="-fx-background-color: red;" text="Excluir" textFill="WHITE" />
             <Button fx:id="btn_sair_id" mnemonicParsing="false" onAction="#btn_sair" prefHeight="34.0" prefWidth="67.0" text="Sair" />
          </children>
          <opaqueInsets>
